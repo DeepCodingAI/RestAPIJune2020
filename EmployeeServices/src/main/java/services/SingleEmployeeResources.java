@@ -7,10 +7,10 @@ import static io.restassured.RestAssured.given;
 
 public class SingleEmployeeResources {
 
-    String baseUrl = "http://info.venturepulse.org:8080/service-webapp";
-    String validResourcePath = "/api/SingleEmployeeResources/";
-    String inValidResourcePath = "/api/SingleEmployeeResourcesByPass/";
-    String objectId = "5f18fdf92fc21306c59854ce";
+    public static String baseUrl = "http://info.venturepulse.org:8080/service-webapp";
+    public static String validResourcePath = "/api/SingleEmployeeResources/";
+    public static String inValidResourcePath = "/api/SingleEmployeeResourcesByPass/";
+    public static String objectId = "5f18fdf92fc21306c59854ce";
 
     public void callSingleEmployeeResourcesSuccessStatus(){
         Response response = given().when().get(baseUrl + validResourcePath + objectId).then().statusCode(200).extract().response();
@@ -30,5 +30,19 @@ public class SingleEmployeeResources {
         Assert.assertEquals(statusLine,"HTTP/1.1 404 Not Found");
         response.getBody().prettyPrint();
         Assert.assertEquals(statusCode, 404);
+    }
+
+    public static int getSingleEmployeeResourcesSuccessStatus(String baseUrl, String resourcePath, String objectId){
+        Response response = given().when().get(baseUrl + resourcePath + objectId).then().statusCode(200).extract().response();
+        int statusCode = response.getStatusCode();
+
+        return statusCode;
+    }
+
+    public static int getSingleEmployeeResourcesUnSuccessfulStatus(String baseUrl, String resourcePath, String objectId){
+        Response response = given().when().get(baseUrl + resourcePath + objectId).then().statusCode(404).extract().response();
+        int statusCode = response.getStatusCode();
+
+        return statusCode;
     }
 }
